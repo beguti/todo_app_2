@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'package:flutter/material.dart';
 
@@ -26,10 +26,21 @@ class ToDoTile extends StatelessWidget {
         child: Row(
           children: [
             //checkbox
-            Checkbox(value: taskCompleted, onChanged: onChanged),
+            Checkbox(
+              value: taskCompleted,
+              onChanged: onChanged,
+              activeColor: Colors.grey,
+            ),
 
             //task name
-            Text(taskName),
+            Text(
+              taskName,
+              style: TextStyle(
+                decoration: taskCompleted
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+              ),
+            ),
           ],
         ),
         decoration: BoxDecoration(
