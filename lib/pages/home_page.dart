@@ -12,9 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
 //text controller
-final _controller= TextEditingController();
+  final _controller = TextEditingController();
 
   //list of todo tasks
   List toDoList = [
@@ -29,16 +28,37 @@ final _controller= TextEditingController();
     });
   }
 
+  //save new task
+  void savedNewTask() {
+    setState(() {
+      toDoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
+
 //create a new task
   void createNewTask() {
     showDialog(
       context: context,
       builder: (context) {
-        return DialogBox(controller: _controller,);
+        return DialogBox(
+          controller: _controller,
+          onSave: savedNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
       },
     );
-    setState(() {});
   }
+
+  //delete task
+  void deleteTask(int index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +83,7 @@ final _controller= TextEditingController();
             taskName: toDoList[index][0],
             taskCompleted: toDoList[index][1],
             onChanged: (value) => checkBoxChanged(value, index),
+            deleteFunction: (context) => deleteTask(index),
           );
         },
       ),
